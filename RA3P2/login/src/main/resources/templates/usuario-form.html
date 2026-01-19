@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Usuario</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Crear Nuevo Usuario</h1>
+        <a th:href="@{/admin}" class="btn btn-secondary">← Volver al Panel</a>
+    </header>
+
+    <div class="section">
+        <form th:action="@{/admin/usuarios/guardar}" method="post" class="form">
+            <div class="form-group">
+                <label for="username">Username: *</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Contraseña: *</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email: *</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label>Roles:</label>
+                <div class="checkbox-group">
+                    <div th:each="rol : ${roles}">
+                        <label>
+                            <input type="checkbox" name="roles" th:value="${rol.nombre}">
+                            <span th:text="${rol.nombre}">ADMIN</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-success">Crear Usuario</button>
+                <a th:href="@{/admin}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

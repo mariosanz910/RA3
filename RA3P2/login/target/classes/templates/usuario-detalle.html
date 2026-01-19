@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Usuario</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Detalles del Usuario</h1>
+            <div class="header-actions">
+                <a th:href="@{/admin/usuarios/editar/{id}(id=${usuario.id})}" class="btn btn-warning">Editar</a>
+                <a th:href="@{/admin}" class="btn btn-secondary">← Volver al Panel</a>
+            </div>
+        </header>
+
+        <div class="section">
+            <div class="detail-card">
+                <h2 th:text="${usuario.username}">Username</h2>
+
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">ID:</span>
+                        <span class="detail-value" th:text="${usuario.id}">1</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">Username:</span>
+                        <span class="detail-value" th:text="${usuario.username}">admin</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">Email:</span>
+                        <span class="detail-value" th:text="${usuario.email}">admin@example.com</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">Estado:</span>
+                        <span th:if="${usuario.activo}" class="badge badge-success">Activo</span>
+                        <span th:unless="${usuario.activo}" class="badge badge-danger">Inactivo</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">Roles:</span>
+                        <span class="detail-value">
+                            <span th:each="rol, iterStat : ${usuario.roles}">
+                                <span class="badge badge-info" th:text="${rol.nombre}">ADMIN</span>
+                            </span>
+                        </span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">Intentos fallidos:</span>
+                        <span class="detail-value" th:text="${usuario.intentosFallidos}">0</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">Fecha de creación:</span>
+                        <span class="detail-value" th:text="${#temporals.format(usuario.fechaCreacion, 'dd/MM/yyyy HH:mm:ss')}">01/01/2024 12:00:00</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">Última actualización:</span>
+                        <span class="detail-value" th:text="${#temporals.format(usuario.fechaActualizacion, 'dd/MM/yyyy HH:mm:ss')}">01/01/2024 12:00:00</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">Último login:</span>
+                        <span class="detail-value" th:text="${usuario.ultimoLogin != null ? #temporals.format(usuario.ultimoLogin, 'dd/MM/yyyy HH:mm:ss') : 'Nunca ha iniciado sesión'}">Nunca</span>
+                    </div>
+                </div>
+
+                <div class="detail-actions">
+                    <a th:href="@{/admin/usuarios/editar/{id}(id=${usuario.id})}" class="btn btn-warning">Editar Usuario</a>
+                    <a th:if="${usuario.activo}"
+                       th:href="@{/admin/usuarios/desactivar/{id}(id=${usuario.id})}"
+                       class="btn btn-secondary"
+                       onclick="return confirm('¿Desactivar este usuario?')">Desactivar</a>
+                    <a th:href="@{/admin/usuarios/eliminar/{id}(id=${usuario.id})}"
+                       class="btn btn-danger"
+                       onclick="return confirm('¿Estás seguro de eliminar este usuario?')">Eliminar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
