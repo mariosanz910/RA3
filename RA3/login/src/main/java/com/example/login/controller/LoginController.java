@@ -11,18 +11,8 @@ public class LoginController {
         return "login";
     }
 
-    @GetMapping("/home")
-    public String home() {
-        return "home"; // pantalla después de login
-    }
-
-    @GetMapping("/admin")
-    public String admin() {
-        return "admin"; // solo admin
-    }
-
-    @GetMapping("/user")
-    public String user() {
-        return "user"; // solo usuario normal
+    @GetMapping("/user/home")
+    public String userHome() {
+        return "user";
     }
 }

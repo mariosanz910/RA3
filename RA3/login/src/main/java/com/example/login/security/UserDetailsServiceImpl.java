@@ -1,8 +1,8 @@
 package com.example.login.security;
 
 import com.example.login.entity.Usuario;
-import com.example.login.repository.UsuarioRepository;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import com.example.login.repository. UsuarioRepository;
+import org. springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;
 
@@ -20,18 +20,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Usuario usuario = usuarioRepository.findByUsername(username)
+        Usuario usuario = usuarioRepository. findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 
         return new org.springframework.security.core.userdetails.User(
                 usuario.getUsername(),
-                usuario.getPassword(),
+                usuario. getPassword(),
                 usuario.getActivo(),
                 true,
                 true,
                 true,
                 usuario.getRoles().stream()
-                        .map(rol -> new SimpleGrantedAuthority("ROLE_" + rol.getNombre()))
+                        . map(rol -> new SimpleGrantedAuthority("ROLE_" + rol.getNombre()))
                         .collect(Collectors.toSet())
         );
     }

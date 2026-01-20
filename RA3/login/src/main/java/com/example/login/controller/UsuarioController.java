@@ -1,13 +1,13 @@
-package com.example.login.controller;
+package com.example. login.controller;
 
-import com.example.login.entity.Usuario;
+import com. example.login.entity.Usuario;
 import com.example.login.service.UsuarioService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/usuarios")
+@RequestMapping("/api/usuarios")
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
@@ -25,7 +25,7 @@ public class UsuarioController {
     // READ - listar todos
     @GetMapping
     public List<Usuario> listarUsuarios() {
-        return usuarioService.listarUsuarios();
+        return usuarioService. listarUsuarios();
     }
 
     // READ - buscar por username
@@ -53,6 +53,6 @@ public class UsuarioController {
     // DELETE físico
     @DeleteMapping("/{id}")
     public void eliminarUsuario(@PathVariable Long id) {
-        usuarioService.eliminarUsuario(id);
+        usuarioService. eliminarUsuario(id);
     }
 }

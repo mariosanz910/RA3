@@ -1,4 +1,4 @@
-package com.example.login.entity;
+package com. example.login.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -15,5 +15,5 @@ public class Rol {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String nombre; // "ADMIN" o "USER"
+    private String nombre;
 }

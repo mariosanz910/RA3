@@ -5,7 +5,7 @@ import lombok.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.Set;
+import java.util. Set;
 
 @Entity
 @Table(name = "usuarios")
@@ -15,7 +15,7 @@ import java.util.Set;
 public class Usuario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType. IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true, length = 50)
@@ -40,19 +40,15 @@ public class Usuario {
     private LocalDateTime ultimoLogin;
 
     @Column(nullable = false)
-    private int intentosFallidos = 0; // contador de intentos fallidos
+    private int intentosFallidos = 0;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "usuarios_roles",
+            name = "usuario_roles",
             joinColumns = @JoinColumn(name = "usuario_id"),
             inverseJoinColumns = @JoinColumn(name = "rol_id")
     )
     private Set<Rol> roles = new HashSet<>();
-
-
-    public Usuario(Object o, String username, String password, String email, boolean b, Object o1, Object o2, Object o3) {
-    }
 
     // -------------------------------
     // Callbacks JPA
@@ -61,7 +57,10 @@ public class Usuario {
     public void prePersist() {
         this.fechaCreacion = LocalDateTime.now();
         this.fechaActualizacion = LocalDateTime.now();
-        this.password = hashPassword(this.password); // Hashear password
+        // Solo hashear si la contraseña no está ya hasheada
+        if (this.password != null && !this. password.startsWith("$2a$")) {
+            this.password = hashPassword(this.password);
+        }
     }
 
     @PreUpdate
@@ -90,8 +89,7 @@ public class Usuario {
     public void registrarIntentoFallido() {
         this.intentosFallidos++;
         if (this.intentosFallidos >= 3) {
-            this.activo = false; // bloquea usuario
-            System.out.println("Usuario bloqueado por 3 intentos fallidos");
+            this. activo = false;
         }
     }
 
