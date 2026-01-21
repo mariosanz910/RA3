@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Usuario - Home</title>
@@ -10,28 +10,30 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
+            padding: 20px;
         }
 
         .container {
-            max-width: 500px;
-            background: #2a2b38;
-            padding: 3rem 2rem;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+            background:  #2a2b38;
+            padding: 2. 5rem 2rem;
+            border-radius:  8px;
+            box-shadow:  0 4px 20px rgba(0,0,0,0.3);
         }
 
         h2 {
             color: #f5f5f5;
-            margin-bottom: 1.5rem;
-            font-size:  1.8em;
-            font-weight:  500;
+            margin-bottom: 1. 5rem;
+            text-align: center;
+            font-size: 1.8em;
+            font-weight: 500;
         }
 
         .user-info {
-            margin:  2rem 0;
+            margin:  1.5rem 0;
             padding: 1.5rem;
             background-color: #1f2029;
             border-radius: 4px;
@@ -39,8 +41,10 @@
 
         .user-info p {
             color: #d3d3d3;
-            font-size: 1.1em;
-            margin: 0.8rem 0;
+            font-size: 1em;
+            margin: 0.7rem 0;
+            display: flex;
+            justify-content: space-between;
         }
 
         .user-info strong {
@@ -53,40 +57,93 @@
 
         .welcome-text {
             color: #d3d3d3;
+            text-align: center;
             margin:  1.5rem 0;
         }
 
+        .message {
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .success {
+            background-color: #2d4a2c;
+            color: #51cf66;
+            border: 1px solid #51cf66;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 1.5rem;
+        }
+
         .btn {
-            padding: 0.8em 2em;
+            flex: 1;
+            padding:  0.8em;
             background-color: #ffeba7;
-            color:  #5e6681;
+            color: #5e6681;
             text-decoration: none;
             border-radius: 4px;
             display: inline-block;
-            margin-top: 1.5rem;
             font-weight: bold;
             font-size: 0.9em;
             text-transform: uppercase;
             transition: all 0.3s ease-in-out;
+            text-align: center;
+            border: none;
+            cursor: pointer;
         }
 
         .btn:hover {
             background-color:  #5e6681;
             color: #ffeba7;
         }
+
+        .btn-secondary {
+            background-color: #4a4b58;
+            color: #d3d3d3;
+        }
+
+        .btn-secondary:hover {
+            background-color:  #3a3b48;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>👋 Bienvenido</h2>
-    <div class="user-info">
-        <p><strong>Usuario:</strong> <span sec:authentication="name">Usuario</span></p>
-        <p><strong>Rol:</strong> <span>USUARIO</span></p>
-    </div>
-    <p class="welcome-text">Has iniciado sesión correctamente como usuario normal.</p>
+    <h2>Panel de Usuario</h2>
 
-    <a th:href="@{/logout}" class="btn">Cerrar Sesión</a>
+    <div th:if="${mensaje}" class="message success" th:text="${mensaje}"></div>
+
+    <div class="user-info">
+        <p><strong>Usuario:</strong> <span th:text="${usuario.username}">username</span></p>
+        <p><strong>Email:</strong> <span th:text="${usuario.email}">email</span></p>
+        <p><strong>Rol:</strong>
+            <span th:if="${usuario.roles != null and ! usuario.roles.isEmpty()}"
+                  th:text="${usuario.roles. iterator().next().nombre}">USUARIO</span>
+            <span th:if="${usuario.roles == null or usuario.roles.isEmpty()}">Sin rol</span>
+        </p>
+        <p><strong>Cuenta activa:</strong>
+            <span th:text="${usuario.activo ?  'Si' : 'No'}">Si</span>
+        </p>
+        <p><strong>Fecha registro:</strong>
+            <span th:text="${usuario.fechaCreacion != null ? #temporals.format(usuario.fechaCreacion, 'dd/MM/yyyy HH:mm') : '-'}">-</span>
+        </p>
+        <p><strong>Ultimo acceso:</strong>
+            <span th:text="${usuario.ultimoLogin != null ? #temporals.format(usuario.ultimoLogin, 'dd/MM/yyyy HH:mm') : 'Primer acceso'}">-</span>
+        </p>
+    </div>
+
+    <p class="welcome-text">Bienvenido a tu panel de usuario</p>
+
+    <div class="btn-group">
+        <a th:href="@{/user/cambiar-password}" class="btn">Cambiar Contraseña</a>
+        <a th:href="@{/logout}" class="btn btn-secondary">Cerrar Sesion</a>
+    </div>
 </div>
 
 </body>
