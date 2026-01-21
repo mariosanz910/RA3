@@ -1,11 +1,11 @@
-package com.example.login. controller;
+package com.example.login.controller;
 
-import com.example.login.entity. Rol;
+import com.example.login. entity. Rol;
 import com.example. login.entity.Usuario;
 import com.example.login.service. RolService;
 import com.example.login.service.UsuarioService;
 import org.springframework. stereotype.Controller;
-import org. springframework.ui.Model;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -50,7 +50,7 @@ public class AdminController {
         try {
             // Asignar rol
             if (rolNombre != null && ! rolNombre.isEmpty()) {
-                Rol rol = rolService.buscarPorNombre(rolNombre);
+                Rol rol = rolService. buscarPorNombre(rolNombre);
                 Set<Rol> roles = new HashSet<>();
                 roles.add(rol);
                 usuario.setRoles(roles);
@@ -65,7 +65,7 @@ public class AdminController {
             usuarioService.crearUsuario(usuario);
             redirectAttributes.addFlashAttribute("mensaje", "Usuario creado correctamente");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Error al crear usuario:  " + e.getMessage());
+            redirectAttributes.addFlashAttribute("error", "Error al crear usuario: " + e.getMessage());
         }
         return "redirect:/admin/usuarios";
     }
@@ -113,10 +113,10 @@ public class AdminController {
     @GetMapping("/usuarios/eliminar/{id}")
     public String eliminarUsuario(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
-            usuarioService.eliminarUsuario(id);
+            usuarioService. eliminarUsuario(id);
             redirectAttributes.addFlashAttribute("mensaje", "Usuario eliminado correctamente");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Error al eliminar usuario: " + e.getMessage());
+            redirectAttributes. addFlashAttribute("error", "Error al eliminar usuario: " + e.getMessage());
         }
         return "redirect:/admin/usuarios";
     }

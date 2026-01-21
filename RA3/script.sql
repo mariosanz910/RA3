@@ -9,30 +9,30 @@ USE login_web;
 
 -- Tabla de roles
 CREATE TABLE roles (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(20) NOT NULL UNIQUE
+                       id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                       nombre VARCHAR(20) NOT NULL UNIQUE
 );
 
 -- Tabla de usuarios
 CREATE TABLE usuarios (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    activo BOOLEAN NOT NULL DEFAULT TRUE,
-    intentos_fallidos INT NOT NULL DEFAULT 0,
-    fecha_creacion DATETIME,
-    fecha_actualizacion DATETIME,
-    ultimo_login DATETIME
+                          id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                          username VARCHAR(50) NOT NULL UNIQUE,
+                          password VARCHAR(100) NOT NULL,
+                          email VARCHAR(100) NOT NULL UNIQUE,
+                          activo BOOLEAN NOT NULL DEFAULT TRUE,
+                          intentos_fallidos INT NOT NULL DEFAULT 0,
+                          fecha_creacion DATETIME,
+                          fecha_actualizacion DATETIME,
+                          ultimo_login DATETIME
 );
 
 -- Tabla que relaciona usuarios con roles (muchos a muchos)
 CREATE TABLE usuario_roles (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    usuario_id BIGINT NOT NULL,
-    rol_id BIGINT NOT NULL,
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
-    FOREIGN KEY (rol_id) REFERENCES roles(id) ON DELETE CASCADE
+                               id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                               usuario_id BIGINT NOT NULL,
+                               rol_id BIGINT NOT NULL,
+                               FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+                               FOREIGN KEY (rol_id) REFERENCES roles(id) ON DELETE CASCADE
 );
 
 -- Insertar roles básicos
@@ -53,12 +53,12 @@ VALUES ('user', '$2a$10$8K1p/a0dL3. uPdLU1/xpL. cLYOHdCCxzCHhKY1bXhEJLgFWe2m6zi'
 INSERT INTO usuario_roles (usuario_id, rol_id)
 SELECT u.id, r.id
 FROM usuarios u
-JOIN roles r ON r.nombre='ADMIN'
+         JOIN roles r ON r.nombre='ADMIN'
 WHERE u.username='admin';
 
 -- Relacionar user con rol USUARIO
 INSERT INTO usuario_roles (usuario_id, rol_id)
 SELECT u.id, r.id
 FROM usuarios u
-JOIN roles r ON r.nombre='USUARIO'
+         JOIN roles r ON r.nombre='USUARIO'
 WHERE u. username='user';
